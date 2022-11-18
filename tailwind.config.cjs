@@ -11,7 +11,8 @@ module.exports = {
       white : '#FFFFFF',
       black : '#000000',
       transparent : '#CBD5E1',
-      fireRed : '#eb3434'
+      fireRed : '#eb3434',
+      mainColor : '#313131'
     }
   },
   plugins: [],
