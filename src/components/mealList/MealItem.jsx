@@ -9,7 +9,7 @@ function MealItem(props){
             <div className="flex flex-col gap-1 justify-center">
                 <div className="flex gap-4 items-center">
                     <p className="text-black font-bold text-sm">Amount</p>
-                    <input className="text-black border-transparent rounded-lg border w-9 h-5 text-sm pl-1" type="number" name="amount"/>
+                    <input className="text-black border-transparent rounded-lg border w-9 h-5 text-sm pl-1 bg-white" type="number" name="amount"/>
                 </div>
                 <button className="bg-red font-bold px-5 py-0.5 rounded-3xl w-fit text-sm">+Add</button>
             </div>

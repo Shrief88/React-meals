@@ -20,6 +20,11 @@
   -webkit-text-size-adjust: 100%;
 }
 
+input[type=number] { 
+  -moz-appearance: textfield;
+}
+
+
 
 body {
   margin: 0;
