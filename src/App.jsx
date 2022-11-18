@@ -5,7 +5,7 @@ import MealList from './components/mealList/MealList'
 function App() {
   
   return (
-    <div className="flex flex-col gap-10">
+    <div>
       <Header/>
       <MealList/>
     </div>
