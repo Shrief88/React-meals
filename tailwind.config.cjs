@@ -12,7 +12,8 @@ module.exports = {
       black : '#000000',
       transparent : '#CBD5E1',
       fireRed : '#eb3434',
-      mainColor : '#313131'
+      mainColor : '#313131',
+      overrelay : '#00000080'
     }
   },
   plugins: [],
