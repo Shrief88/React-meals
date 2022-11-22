@@ -4,9 +4,9 @@ import { useContext } from 'react';
 function ModalItem(props){
     const ctx = useContext(OrderContext);
 
-    const addItme = ()=> ctx.addItemtoOrder(props.name);
+    const addItme = ()=> ctx.addItemtoOrder(props.id);
 
-    const removeItem = ()=> ctx.removerItemFromOrder(props.name);
+    const removeItem = ()=> ctx.removerItemFromOrder(props.id);
 
     return(
         <div className="border-b  pb-3">

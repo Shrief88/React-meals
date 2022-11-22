@@ -8,7 +8,7 @@ function Modal(){
 
     const orders = ctx.orders.map(order =>{
         if(order.amount != 0){
-            return <ModalItem key={order.name} {...order}/>
+            return <ModalItem key={order.id} {...order}/>
         }
     })
 

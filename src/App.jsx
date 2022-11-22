@@ -15,22 +15,23 @@ function App() {
     return{
       name :item.name,
       price : item.price,
+      id:item.id,
       amount : 0
     }
   }))
 
   const [modal,setModal] = useState(false);
 
-  const updateOrders = (name,amount) =>{
-    setOrders(prev=>prev.map(item=>item.name === name ? {...item,amount:Number(item.amount+Number(amount))}:item))
+  const updateOrders = (id,amount) =>{
+    setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount+Number(amount))}:item))
   }
 
-  const addItemtoOrder = (name)=>{
-    setOrders(prev=>prev.map(item=>item.name === name ? {...item,amount:Number(item.amount+1)}:item))
+  const addItemtoOrder = (id)=>{
+    setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount+1)}:item))
   }
 
-  const removerItemFromOrder = (name)=>{
-    setOrders(prev=>prev.map(item=>item.name === name ? {...item,amount:Number(item.amount-1)}:item))
+  const removerItemFromOrder = (id)=>{
+    setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount-1)}:item))
   }
 
 
