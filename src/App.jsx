@@ -22,14 +22,25 @@ function App() {
   const [modal,setModal] = useState(false);
 
   const updateOrders = (name,amount) =>{
-      setOrders(prev=>prev.map(item=>item.name === name ? {...item,amount:amount}:item))
+    setOrders(prev=>prev.map(item=>item.name === name ? {...item,amount:Number(item.amount+Number(amount))}:item))
   }
+
+  const addItemtoOrder = (name)=>{
+    setOrders(prev=>prev.map(item=>item.name === name ? {...item,amount:Number(item.amount+1)}:item))
+  }
+
+  const removerItemFromOrder = (name)=>{
+    setOrders(prev=>prev.map(item=>item.name === name ? {...item,amount:Number(item.amount-1)}:item))
+  }
+
+
 
   const showModal = ()=> setModal(prev=>!prev);
   
   return (
     <div>
-      <OrderContext.Provider value={{orders : orders, updateOrders : updateOrders, showModal:showModal}}>
+      <OrderContext.Provider value={
+        {orders : orders, updateOrders : updateOrders, showModal:showModal,addItemtoOrder:addItemtoOrder,removerItemFromOrder:removerItemFromOrder}}>
         <Header/>
         <Main/>
         {modal && <Modal/>}

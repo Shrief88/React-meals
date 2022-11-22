@@ -1,4 +1,13 @@
+import { OrderContext } from '../../App';
+import { useContext } from 'react';
+
 function ModalItem(props){
+    const ctx = useContext(OrderContext);
+
+    const addItme = ()=> ctx.addItemtoOrder(props.name);
+
+    const removeItem = ()=> ctx.removerItemFromOrder(props.name);
+
     return(
         <div className="border-b  pb-3">
             <p className="text-black font-bold mb-1">{props.name}</p>
@@ -10,10 +19,10 @@ function ModalItem(props){
                     </div>
                 </div>
                 <div className="flex gap-8">
-                    <div className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
+                    <div onClick={removeItem} className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
                         -
                     </div>
-                    <div className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
+                    <div onClick={addItme} className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
                         +
                     </div>
                 </div>
