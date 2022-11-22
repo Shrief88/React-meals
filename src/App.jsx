@@ -2,7 +2,7 @@ import './App.css'
 import Header from './components/header/Header'
 import MealList from './components/mealList/MealList'
 import Main from './components/Main'
-import Modal from './components/Modal'
+import Modal from './components/modal/Modal'
 import React, { useState } from 'react'
 import data from './data'
 

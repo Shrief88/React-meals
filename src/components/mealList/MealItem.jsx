@@ -23,10 +23,9 @@ function MealItem(props){
                 <p className="text-red-700 font-bold ">${props.price}</p>
             </div>
             <div className="flex flex-col gap-1 justify-center">
-                <div className="flex gap-4 items-center">
+                <div className="flex gap-3 items-center">
                     <p className="text-black font-bold text-sm">Amount</p>
-                    <input className="w-8 p-0  h-5 text-black text-sm rounded-lg pl-1" type="Number"  name={props.name}
-                     value={amount} onChange={handleChange}/>
+                    <input className="w-11 p-0 h-5 text-black text-sm rounded-lg pl-1 border-teal-600 border bg-white" type="Number" name={props.name} value={amount} onChange={handleChange}/>
                 </div>
                 <button className="bg-red-900 font-bold px-5 py-0.5 rounded-3xl w-fit text-sm" onClick={addItemToOrder}>
                     +Add
