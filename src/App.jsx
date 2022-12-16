@@ -6,7 +6,6 @@ import Modal from './components/modal/Modal'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 
-
 export const OrderContext = React.createContext();
 
 function App() {
@@ -35,16 +34,21 @@ function App() {
   },[])
   
  
-  const updateOrders = (id,amount) =>{
-    setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount+Number(amount))}:item))
+  const updateOrders = (id,amount,price) =>{
+    if(orders.find(item => item.id === id)){
+      setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount+Number(amount))}:item))
+    }else{
+      setOrders(prev => [...prev,{id,amount,price}]);
+    }
+    
   }
 
   const addItemtoOrder = (id)=>{
-    setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount+1)}:item))
+    setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount)+1}:item))
   }
 
   const removerItemFromOrder = (id)=>{
-    setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount-1)}:item))
+    setOrders(prev=>prev.map(item=>item.id === id ? {...item,amount:Number(item.amount)-1}:item))
   }
 
   const [modal,setModal] = useState(false);
@@ -60,7 +64,6 @@ function App() {
         {modal && <Modal/>}
         <MealList meals={meals} isLoading={isLoading}/>
       </OrderContext.Provider>
-      
     </div>
   )
 }

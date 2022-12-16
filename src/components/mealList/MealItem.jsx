@@ -11,7 +11,7 @@ function MealItem(props){
     }
 
     const addItemToOrder = ()=>{
-        ctx.updateOrders(props.id,amount);
+        ctx.updateOrders(props.id,amount,props.price);
         setAmount(0);
     }
 
