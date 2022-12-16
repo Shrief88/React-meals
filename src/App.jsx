@@ -12,11 +12,17 @@ function App() {
   const[meals,setMeals] = useState([]);
   const[isLoading,setIsLoading] = useState(false);
   const[orders,setOrders] = useState([]);
+  const[httpError,setHttpError] = useState(null);
 
   useEffect(()=>{
     const fetchData = async ()=>{
       setIsLoading(true);
       const response = await fetch('https://reactmeals-755d6-default-rtdb.firebaseio.com/meals.json');
+      
+      if(!response.ok){
+        throw new Error("Something went wrong");
+      }
+
       const responseData = await response.json();
       let loadedData = [];
       for(const key in responseData){
@@ -30,7 +36,13 @@ function App() {
       setMeals(loadedData);
       setIsLoading(false);
     }
-    fetchData();
+
+
+    fetchData().catch(e=>{
+      setIsLoading(false)
+      setHttpError(e.message);
+    });
+    
   },[])
   
  
@@ -62,7 +74,7 @@ function App() {
         <Header/>
         <Main/>
         {modal && <Modal/>}
-        <MealList meals={meals} isLoading={isLoading}/>
+        <MealList meals={meals} isLoading={isLoading} httpError={httpError}/>
       </OrderContext.Provider>
     </div>
   )
