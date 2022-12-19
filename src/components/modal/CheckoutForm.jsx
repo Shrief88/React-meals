@@ -31,14 +31,12 @@ function CheckoutForm() {
         <button
           type="button"
           className="bg-red-700 px-3 py-0.5 rounded-md font-bold"
-          onClick={ctx.showModal}
-        >
+          onClick={ctx.showModal}>
           Cancel
         </button>
         <button
           type="button"
-          className="bg-green-700 px-3 py-0.5 rounded-md font-bold"
-        >
+          className="bg-green-700 px-3 py-0.5 rounded-md font-bold">
           Confirm
         </button>
       </div>

@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Header from './components/header/Header';
 import MealList from './components/mealList/MealList';
 import Main from './components/Main';
@@ -25,14 +25,17 @@ function App() {
 
       const responseData = await response.json();
       const loadedData = [];
-      for (const key in responseData) {
+
+      const keys = Object.keys(responseData);
+      for (let i = 0; i < keys.length; i++) {
         loadedData.push({
-          id: key,
-          name: responseData[key].name,
-          price: responseData[key].price,
-          description: responseData[key].description,
+          id: keys[i],
+          name: responseData[keys[i]].name,
+          price: responseData[keys[i]].price,
+          description: responseData[keys[i]].description,
         });
       }
+
       setMeals(loadedData);
       setIsLoading(false);
     };
@@ -46,7 +49,7 @@ function App() {
   const updateOrders = (id, amount, price) => {
     if (orders.find((item) => item.id === id)) {
       setOrders((prev) => prev.map((item) => (item.id === id
-        ? { ...item, amount: Number(item.amount + Number(amount)) }
+        ? { ...item, amount: Number(item.amount) + Number(amount) }
         : item)));
     } else {
       setOrders((prev) => [...prev, { id, amount, price }]);
@@ -58,24 +61,29 @@ function App() {
   };
 
   const removerItemFromOrder = (id) => {
-    setOrders((prev) => prev.map((item) => (item.id === id ? { ...item, amount: Number(item.amount) - 1 } : item)));
+    const myItem = orders.find((item) => item.id === id);
+    if (myItem.amount === 1) {
+      setOrders((prev) => prev.filter((item) => item.id !== id));
+    } else {
+      setOrders((prev) => prev.map((item) => (item.id === id ? { ...item, amount: Number(item.amount) - 1 } : item)));
+    }
   };
 
   const [modal, setModal] = useState(false);
 
   const showModal = () => setModal((prev) => !prev);
 
+  const provider = useMemo(() => ({
+    orders,
+    updateOrders,
+    showModal,
+    addItemtoOrder,
+    removerItemFromOrder,
+  }), [orders]);
+
   return (
     <div>
-      <OrderContext.Provider
-        value={{
-          orders,
-          updateOrders,
-          showModal,
-          addItemtoOrder,
-          removerItemFromOrder,
-        }}
-      >
+      <OrderContext.Provider value={provider}>
         <Header />
         <Main />
         {modal && <Modal />}

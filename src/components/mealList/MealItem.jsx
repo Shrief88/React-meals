@@ -5,9 +5,7 @@ function MealItem(props) {
   const [amount, setAmount] = useState(0);
   const ctx = useContext(OrderContext);
 
-  const handleChange = (event) => {
-    setAmount(event.target.value);
-  };
+  const handleChange = (event) => setAmount(event.target.value);
 
   const addItemToOrder = () => {
     ctx.updateOrders(props.id, amount, props.price);
@@ -41,8 +39,7 @@ function MealItem(props) {
         <button
           type="button"
           className="bg-red-900 font-bold px-5 py-0.5 rounded-3xl w-fit text-sm"
-          onClick={addItemToOrder}
-        >
+          onClick={addItemToOrder}>
           +Add
         </button>
       </div>

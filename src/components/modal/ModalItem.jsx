@@ -24,14 +24,12 @@ function ModalItem(props) {
         <div className="flex gap-8">
           <div
             onClick={removeItem}
-            className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200"
-          >
+            className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
             -
           </div>
           <div
             onClick={addItme}
-            className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200"
-          >
+            className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
             +
           </div>
         </div>
