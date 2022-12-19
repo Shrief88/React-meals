@@ -4,8 +4,7 @@ import Header from './components/header/Header';
 import MealList from './components/mealList/MealList';
 import Main from './components/Main';
 import Modal from './components/modal/Modal';
-
-export const OrderContext = React.createContext();
+import { OrderContext } from './context';
 
 function App() {
   const [meals, setMeals] = useState([]);

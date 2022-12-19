@@ -1,6 +1,6 @@
 import { BsCart } from 'react-icons/bs';
-import { useContext, useState, useEffect } from 'react';
-import { OrderContext } from '../../App';
+import React, { useContext, useState, useEffect } from 'react';
+import { OrderContext } from '../../context';
 
 function Cart() {
   const ctx = useContext(OrderContext);

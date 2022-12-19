@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react';
-import { OrderContext } from '../../App';
+import React, { useState, useContext } from 'react';
+import { OrderContext } from '../../context';
 
 function MealItem(props) {
   const [amount, setAmount] = useState(0);

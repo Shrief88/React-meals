@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { OrderContext } from '../../App';
+import React, { useContext } from 'react';
+import { OrderContext } from '../../context';
 
 function ModalItem(props) {
   const ctx = useContext(OrderContext);

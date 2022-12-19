@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import { OrderContext } from '../../App';
+import React, { useContext, useState } from 'react';
+import { OrderContext } from '../../context';
 import ModalItem from './ModalItem';
 import CheckoutForm from './CheckoutForm';
 
