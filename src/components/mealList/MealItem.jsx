@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import OrderContext from '../../context';
+import React, { useState, useContext } from "react";
+import OrderContext from "../../context";
 
 function MealItem(props) {
   const [amount, setAmount] = useState(0);
@@ -19,10 +19,7 @@ function MealItem(props) {
           {props.name}
         </p>
         <p className="text-black text-xs italic">{props.description}</p>
-        <p className="text-red-700 font-bold ">
-          $
-          {props.price}
-        </p>
+        <p className="text-red-700 font-bold ">${props.price}</p>
       </div>
       <div className="flex flex-col gap-1 justify-center">
         <div className="flex gap-3 items-center">

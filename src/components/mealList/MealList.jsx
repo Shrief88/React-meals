@@ -1,5 +1,5 @@
-import React from 'react';
-import MealItem from './MealItem';
+import React from "react";
+import MealItem from "./MealItem";
 
 function MealList(props) {
   let content;

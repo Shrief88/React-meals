@@ -1,6 +1,6 @@
-import React from 'react';
-import Cart from './Cart';
-import mealImage from '../../assets/meals.jpg';
+import React from "react";
+import Cart from "./Cart";
+import mealImage from "../../assets/meals.jpg";
 
 function Header() {
   return (

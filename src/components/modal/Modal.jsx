@@ -1,13 +1,18 @@
-import React, { useContext, useState } from 'react';
-import OrderContext from '../../context';
-import ModalItem from './ModalItem';
-import CheckoutForm from './CheckoutForm';
+import React, { useContext, useState } from "react";
+import OrderContext from "../../context";
+import ModalItem from "./ModalItem";
+import CheckoutForm from "./CheckoutForm";
 
 function Modal() {
   const [showForm, setShowForm] = useState(false);
   const ctx = useContext(OrderContext);
-  const itemsPrice = ctx.orders.reduce((prev, cur) => prev + Number(cur.price) * Number(cur.amount), 0).toFixed(2);
-  const orders = ctx.orders.map((order) => <ModalItem key={order.id} {...order} />);
+  const itemsPrice = ctx.orders
+    .reduce((prev, cur) => prev + Number(cur.price) * Number(cur.amount), 0)
+    .toFixed(2);
+
+  const orders = ctx.orders.map((order) => (
+    <ModalItem key={order.id} {...order} />
+  ));
 
   const showCheckoutForm = () => {
     setShowForm(true);
@@ -20,10 +25,7 @@ function Modal() {
         {showForm && <CheckoutForm />}
         <div className="flex justify-between">
           <p className="text-black font-extrabold text-xl">Total Amount</p>
-          <p className="text-black font-extrabold text-xl">
-            $
-            {itemsPrice}
-          </p>
+          <p className="text-black font-extrabold text-xl">${itemsPrice}</p>
         </div>
         {!showForm && (
           <div className="flex justify-end gap-2">

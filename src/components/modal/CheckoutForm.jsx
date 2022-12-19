@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import OrderContext from '../../context';
+import React, { useContext } from "react";
+import OrderContext from "../../context";
 
 function CheckoutForm() {
   const ctx = useContext(OrderContext);

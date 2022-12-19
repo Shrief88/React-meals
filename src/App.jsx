@@ -1,10 +1,10 @@
-import './App.css';
-import React, { useState, useEffect, useMemo } from 'react';
-import Header from './components/header/Header';
-import MealList from './components/mealList/MealList';
-import Main from './components/Main';
-import Modal from './components/modal/Modal';
-import OrderContext from './context';
+import "./App.css";
+import React, { useState, useEffect, useMemo } from "react";
+import Header from "./components/header/Header";
+import MealList from "./components/mealList/MealList";
+import Main from "./components/Main";
+import Modal from "./components/modal/Modal";
+import OrderContext from "./context";
 
 function App() {
   const [meals, setMeals] = useState([]);
@@ -16,11 +16,11 @@ function App() {
     const fetchData = async () => {
       setIsLoading(true);
       const response = await fetch(
-        'https://reactmeals-755d6-default-rtdb.firebaseio.com/meals.json',
+        "https://reactmeals-755d6-default-rtdb.firebaseio.com/meals.json"
       );
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error("Something went wrong");
       }
 
       const responseData = await response.json();
@@ -48,16 +48,24 @@ function App() {
 
   const updateOrders = (id, amount, price) => {
     if (orders.find((item) => item.id === id)) {
-      setOrders((prev) => prev.map((item) => (item.id === id
-        ? { ...item, amount: Number(item.amount) + Number(amount) }
-        : item)));
+      setOrders((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? { ...item, amount: Number(item.amount) + Number(amount) }
+            : item
+        )
+      );
     } else {
       setOrders((prev) => [...prev, { id, amount, price }]);
     }
   };
 
   const addItemtoOrder = (id) => {
-    setOrders((prev) => prev.map((item) => (item.id === id ? { ...item, amount: Number(item.amount) + 1 } : item)));
+    setOrders((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, amount: Number(item.amount) + 1 } : item
+      )
+    );
   };
 
   const removerItemFromOrder = (id) => {
@@ -65,7 +73,11 @@ function App() {
     if (myItem.amount === 1) {
       setOrders((prev) => prev.filter((item) => item.id !== id));
     } else {
-      setOrders((prev) => prev.map((item) => (item.id === id ? { ...item, amount: Number(item.amount) - 1 } : item)));
+      setOrders((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, amount: Number(item.amount) - 1 } : item
+        )
+      );
     }
   };
 
@@ -73,13 +85,16 @@ function App() {
 
   const showModal = () => setModal((prev) => !prev);
 
-  const provider = useMemo(() => ({
-    orders,
-    updateOrders,
-    showModal,
-    addItemtoOrder,
-    removerItemFromOrder,
-  }), [orders]);
+  const provider = useMemo(
+    () => ({
+      orders,
+      updateOrders,
+      showModal,
+      addItemtoOrder,
+      removerItemFromOrder,
+    }),
+    [orders]
+  );
 
   return (
     <div>

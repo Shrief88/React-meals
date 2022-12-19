@@ -1,12 +1,15 @@
-import { BsCart } from 'react-icons/bs';
-import React, { useContext, useState, useEffect } from 'react';
-import OrderContext from '../../context';
+import { BsCart } from "react-icons/bs";
+import React, { useContext, useState, useEffect } from "react";
+import OrderContext from "../../context";
 
 function Cart() {
   const ctx = useContext(OrderContext);
-  const itemsCounter = ctx.orders.reduce((prev, cur) => prev + Number(cur.amount), 0);
+  const itemsCounter = ctx.orders.reduce(
+    (prev, cur) => prev + Number(cur.amount),
+    0
+  );
   const [addAnimation, setAddAnimation] = useState(false);
-  const animation = addAnimation ? 'animate-pump' : '';
+  const animation = addAnimation ? "animate-pump" : "";
 
   useEffect(() => {
     if (itemsCounter === 0) {

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import OrderContext from '../../context';
+import React, { useContext } from "react";
+import OrderContext from "../../context";
 
 function ModalItem(props) {
   const ctx = useContext(OrderContext);
@@ -15,10 +15,7 @@ function ModalItem(props) {
         <div className="flex gap-8">
           <p className="text-red-900 font-bold">{props.price}</p>
           <div className="px-1 py-0.5 border border-teal-600 rounded-lg text-sm text-black">
-            <p>
-              x
-              {props.amount}
-            </p>
+            <p>x{props.amount}</p>
           </div>
         </div>
         <div className="flex gap-8">
