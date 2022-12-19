@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { OrderContext } from '../../context';
+import OrderContext from '../../context';
 import ModalItem from './ModalItem';
 import CheckoutForm from './CheckoutForm';
 
@@ -7,10 +7,12 @@ function Modal() {
   const [showForm, setShowForm] = useState(false);
 
   const ctx = useContext(OrderContext);
-  const itemsPrice = ctx.orders.reduce((prev, cur) => prev + (Number(cur.price) * Number(cur.amount)), 0).toFixed(2);
+  const itemsPrice = ctx.orders
+    .reduce((prev, cur) => prev + Number(cur.price) * Number(cur.amount), 0)
+    .toFixed(2);
 
   const orders = ctx.orders.map((order) => {
-    if (order.amount != 0) {
+    if (order.amount !== 0) {
       return <ModalItem key={order.id} {...order} />;
     }
   });
@@ -33,11 +35,22 @@ function Modal() {
         </div>
         {!showForm && (
           <div className="flex justify-end gap-2">
-            <button className="bg-red-700 px-3 py-0.5 rounded-md font-bold" onClick={ctx.showModal}>Close</button>
-            <button className="bg-green-700 px-3 py-0.5 rounded-md font-bold" onClick={showCheckoutForm}>Order</button>
+            <button
+              type="button"
+              className="bg-red-700 px-3 py-0.5 rounded-md font-bold"
+              onClick={ctx.showModal}
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              className="bg-green-700 px-3 py-0.5 rounded-md font-bold"
+              onClick={showCheckoutForm}
+            >
+              Order
+            </button>
           </div>
         )}
-
       </div>
     </div>
   );

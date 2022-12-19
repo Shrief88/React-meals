@@ -17,7 +17,6 @@ function MealList(props) {
         {content}
       </div>
     </div>
-
   );
 }
 

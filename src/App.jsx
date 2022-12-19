@@ -4,7 +4,7 @@ import Header from './components/header/Header';
 import MealList from './components/mealList/MealList';
 import Main from './components/Main';
 import Modal from './components/modal/Modal';
-import { OrderContext } from './context';
+import OrderContext from './context';
 
 function App() {
   const [meals, setMeals] = useState([]);
@@ -15,7 +15,9 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const response = await fetch('https://reactmeals-755d6-default-rtdb.firebaseio.com/meals.json');
+      const response = await fetch(
+        'https://reactmeals-755d6-default-rtdb.firebaseio.com/meals.json',
+      );
 
       if (!response.ok) {
         throw new Error('Something went wrong');
@@ -43,7 +45,9 @@ function App() {
 
   const updateOrders = (id, amount, price) => {
     if (orders.find((item) => item.id === id)) {
-      setOrders((prev) => prev.map((item) => (item.id === id ? { ...item, amount: Number(item.amount + Number(amount)) } : item)));
+      setOrders((prev) => prev.map((item) => (item.id === id
+        ? { ...item, amount: Number(item.amount + Number(amount)) }
+        : item)));
     } else {
       setOrders((prev) => [...prev, { id, amount, price }]);
     }
@@ -63,11 +67,14 @@ function App() {
 
   return (
     <div>
-      <OrderContext.Provider value={
-        {
-          orders, updateOrders, showModal, addItemtoOrder, removerItemFromOrder,
-        }
-}
+      <OrderContext.Provider
+        value={{
+          orders,
+          updateOrders,
+          showModal,
+          addItemtoOrder,
+          removerItemFromOrder,
+        }}
       >
         <Header />
         <Main />

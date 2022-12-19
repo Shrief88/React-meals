@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { OrderContext } from '../../context';
+import OrderContext from '../../context';
 
 function ModalItem(props) {
   const ctx = useContext(OrderContext);
@@ -22,17 +22,21 @@ function ModalItem(props) {
           </div>
         </div>
         <div className="flex gap-8">
-          <div onClick={removeItem} className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
+          <div
+            onClick={removeItem}
+            className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200"
+          >
             -
           </div>
-          <div onClick={addItme} className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
+          <div
+            onClick={addItme}
+            className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200"
+          >
             +
           </div>
         </div>
-
       </div>
     </div>
-
   );
 }
 

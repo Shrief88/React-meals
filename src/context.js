@@ -1,3 +1,5 @@
 import React from 'react';
 
-export const OrderContext = React.createContext();
+const OrderContext = React.createContext();
+
+export default OrderContext;
