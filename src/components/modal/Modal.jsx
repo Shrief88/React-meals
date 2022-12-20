@@ -14,9 +14,7 @@ function Modal() {
     <ModalItem key={order.id} {...order} />
   ));
 
-  const showCheckoutForm = () => {
-    setShowForm(true);
-  };
+  const showCheckoutForm = () => setShowForm(true);
 
   return (
     <div className="w-full h-full fixed left-0 right-0 top-0 bottom-0 bg-[#00000080] flex justify-center items-center">
