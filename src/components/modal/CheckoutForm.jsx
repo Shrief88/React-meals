@@ -1,77 +1,78 @@
 import React, { useContext } from "react";
-import { useFormik } from "formik";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import OrderContext from "../../context";
 
+const schema = Yup.object({
+  name: Yup.string()
+    .min(3, "Must be more than 2 characters")
+    .required("Required"),
+  number: Yup.string()
+    .matches("^01[0-2,5]{1}[0-9]{8}$", "Phone number is not valid")
+    .required("Required"),
+  street: Yup.string()
+    .min(3, "Must be more than 2 characters")
+    .required("Required"),
+  city: Yup.string()
+    .min(3, "Must be more than 2 characters")
+    .required("Required"),
+});
+
 function CheckoutForm() {
   const ctx = useContext(OrderContext);
-  const formik = useFormik({
-    initialValues: { name: "", number: "", street: "", city: "" },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .min(3, "Must be more than 2 characters")
-        .required("Required"),
-      number: Yup.string()
-        .matches("^01[0-2,5]{1}[0-9]{8}$", "Phone number is not valid")
-        .required("Required"),
-      street: Yup.string()
-        .min(3, "Must be more than 2 characters")
-        .required("Required"),
-      city: Yup.string()
-        .min(3, "Must be more than 2 characters")
-        .required("Required"),
-    }),
-    onSubmit: () => {
-      ctx.showModal();
-    },
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    resolver: yupResolver(schema),
   });
+  const onSubmit = () => ctx.showModal();
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={formik.handleSubmit}>
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
       <input
         type="text"
         className="text-black w-full border rounded-lg border-gray-400 p-2 pr-12 text-md "
         placeholder="Name"
         name="name"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
+        {...register("name")}
       />
-      {formik.touched.name && formik.errors.name ? (
-        <p className="text-red-600 text-xs">{formik.errors.name}</p>
-      ) : null}
+      {errors.name && (
+        <p className="text-red-600 text-xs">{errors.name.message}</p>
+      )}
       <input
         type="tel"
         className="text-black w-full border rounded-lg border-gray-400 p-2 pr-12 text-md "
         placeholder="Phone Number"
         name="number"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
+        {...register("number")}
       />
-      {formik.touched.number && formik.errors.number ? (
-        <p className="text-red-600 text-xs">{formik.errors.number}</p>
-      ) : null}
+      {errors.number && (
+        <p className="text-red-600 text-xs">{errors.number.message}</p>
+      )}
       <input
         type="text"
         className="text-black w-full border rounded-lg border-gray-400 p-2 pr-12 text-md "
         placeholder="Street"
         name="street"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
+        {...register("street")}
       />
-      {formik.touched.street && formik.errors.street ? (
-        <p className="text-red-600 text-xs">{formik.errors.street}</p>
-      ) : null}
+      {errors.street && (
+        <p className="text-red-600 text-xs">{errors.street.message}</p>
+      )}
       <input
         type="text"
         className="text-black w-full border rounded-lg border-gray-400 p-2 pr-12 text-md "
         placeholder="City"
         name="city"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
+        {...register("number")}
       />
-      {formik.touched.city && formik.errors.city ? (
-        <p className="text-red-600 text-xs">{formik.errors.city}</p>
-      ) : null}
+      {errors.city && (
+        <p className="text-red-600 text-xs">{errors.city.message}</p>
+      )}
 
       <div className="flex justify-end gap-2">
         <button
