@@ -26,10 +26,10 @@ const schema = Yup.object({
 
 function CheckoutForm() {
   const ctx = useContext(OrderContext);
-  const [orderIsEmpty, setOrderIsEmpty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [httpError, setHttpError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccessed, setIsSuccessed] = useState(false);
 
   const {
     register,
@@ -40,9 +40,8 @@ function CheckoutForm() {
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {
-    if (Object.keys(ctx.orders).length === 0) {
-      setOrderIsEmpty(true);
-    } else {
+    setIsSubmitting(true);
+    if (Object.keys(ctx.orders).length !== 0) {
       setIsLoading(true);
       try {
         const response = await fetch(
@@ -59,50 +58,61 @@ function CheckoutForm() {
         if (!response.ok) {
           throw new Error("Something went wrong");
         }
+        setIsSuccessed(true);
       } catch (e) {
         setHttpError(e.message);
       }
       setIsLoading(false);
-      setIsSubmitting(true);
+    }
+  };
+
+  const closeForm = () => {
+    ctx.showModal();
+    if (isSuccessed) {
+      ctx.setOrders([]);
     }
   };
 
   let feedbackMessage;
-  if (orderIsEmpty) {
-    feedbackMessage = (
-      <FeedbackMessage
-        textColor="text-red-700"
-        message="You should select your orders before submitting"
-      />
-    );
-  } else if (isLoading) {
-    feedbackMessage = (
-      <FeedbackMessage
-        textColor="text-black"
-        icon=<CircularProgressIcons />
-        message="Sending..."
-      />
-    );
-  } else if (httpError) {
-    feedbackMessage = (
-      <FeedbackMessage
-        textColor="text-red-700"
-        icon=<ErrorIcon color="error" />
-        message={httpError}
-      />
-    );
-  } else if (isSubmitting) {
-    feedbackMessage = (
-      <FeedbackMessage
-        textColor="text-green-700"
-        icon=<CheckCircleOutlineIcon color="success" />
-        message="Success"
-      />
-    );
+  if (isSubmitting) {
+    if (Object.keys(ctx.orders).length === 0) {
+      feedbackMessage = (
+        <FeedbackMessage
+          textColor="text-red-700"
+          message="You should select your orders before submitting"
+        />
+      );
+    } else if (isLoading) {
+      feedbackMessage = (
+        <FeedbackMessage
+          textColor="text-black"
+          icon=<CircularProgressIcons />
+          message="Sending..."
+        />
+      );
+    } else if (httpError) {
+      feedbackMessage = (
+        <FeedbackMessage
+          textColor="text-red-700"
+          icon=<ErrorIcon color="error" />
+          message={httpError}
+        />
+      );
+    } else {
+      feedbackMessage = (
+        <FeedbackMessage
+          textColor="text-green-700"
+          icon=<CheckCircleOutlineIcon color="success" />
+          message="Success"
+        />
+      );
+    }
   }
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col gap-3 border-b py-3"
+      onSubmit={handleSubmit(onSubmit)}>
       <input
         type="text"
         className="text-black w-full border rounded-lg border-gray-400 p-2 pr-12 text-md "
@@ -144,20 +154,30 @@ function CheckoutForm() {
         <p className="text-red-600 text-xs">{errors.city.message}</p>
       )}
 
-      <div className="flex justify-end gap-2">
+      {!isSubmitting && (
+        <div className="flex justify-end gap-2">
+          <button
+            type="button"
+            className="bg-red-700 px-3 py-0.5 rounded-md font-bold"
+            onClick={ctx.showModal}>
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="bg-green-700 px-3 py-0.5 rounded-md font-bold">
+            Confirm
+          </button>
+        </div>
+      )}
+      {feedbackMessage}
+      {isSubmitting && (
         <button
           type="button"
-          className="bg-red-700 px-3 py-0.5 rounded-md font-bold"
-          onClick={ctx.showModal}>
-          Cancel
+          className="bg-red-700 px-3 py-0.5  rounded-md font-bold w-20 m-auto text-lg"
+          onClick={closeForm}>
+          Close
         </button>
-        <button
-          type="submit"
-          className="bg-green-700 px-3 py-0.5 rounded-md font-bold">
-          Confirm
-        </button>
-      </div>
-      {feedbackMessage}
+      )}
     </form>
   );
 }
