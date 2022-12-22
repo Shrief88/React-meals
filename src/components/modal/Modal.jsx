@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import OrderContext from "../../context";
+import OrderContext from "../../context/context";
 import ModalItem from "./ModalItem";
 import CheckoutForm from "./CheckoutForm";
 

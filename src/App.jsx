@@ -4,7 +4,7 @@ import Header from "./components/header/Header";
 import MealList from "./components/mealList/MealList";
 import Main from "./components/Main";
 import Modal from "./components/modal/Modal";
-import OrderContext from "./context";
+import OrderContext from "./context/context";
 
 function App() {
   const [orders, setOrders] = useState([]);

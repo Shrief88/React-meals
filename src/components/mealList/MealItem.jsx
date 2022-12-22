@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import OrderContext from "../../context";
+import OrderContext from "../../context/context";
 
 function MealItem(props) {
   const [amount, setAmount] = useState(0);

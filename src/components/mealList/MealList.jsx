@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MealItem from "./MealItem";
+import CircularProgressIcons from "../../UI/CircularProgress";
 
 function MealList() {
   const [meals, setMeals] = useState([]);
@@ -29,7 +30,6 @@ function MealList() {
           description: responseData[keys[i]].description,
         });
       }
-
       setMeals(loadedData);
       setIsLoading(false);
     };
@@ -42,7 +42,10 @@ function MealList() {
 
   let content;
   if (isLoading) {
-    content = <p className="text-black text-center">Loading data...</p>;
+    content =<div className="flex justify-center items-center gap-2">
+      <CircularProgressIcons/>
+      <p className="text-black text-center">Loading data...</p>;
+    </div>
   } else if (httpError) {
     content = <p className="text-black text-center">{httpError}</p>;
   } else {

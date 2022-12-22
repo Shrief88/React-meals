@@ -1,7 +1,6 @@
-import { BsCart } from "react-icons/bs";
 import React, { useContext, useState, useEffect } from "react";
-import OrderContext from "../../context";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import OrderContext from "../../context/context";
 
 function Cart() {
   const ctx = useContext(OrderContext);
@@ -29,9 +28,8 @@ function Cart() {
   return (
     <div
       onClick={ctx.showModal}
-      className={`bg-[#3D1505] rounded-2xl flex gap-3 items-center px-6 py-1 ${animation}`}>
-      <ShoppingCartOutlinedIcon/>
-
+      className={`bg-[#3D1505] rounded-2xl flex gap-3 items-center px-6 py-1 ${animation} text-xl`}>
+      <ShoppingCartOutlinedIcon fontSize="inherit"/>
       <p className="font-bold text-sm tracking-tight">Your Cart</p>
       <div className="bg-red-800 py-0.5 px-2 rounded-lg">
         <p className="text-sm font-bold">{itemsCounter}</p>
