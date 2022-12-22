@@ -5,7 +5,8 @@ import * as Yup from "yup";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import OrderContext from "../../context/context";
-import CircularProgressIcons from "../../UI/CircularProgress";
+import CircularProgressIcons from "../UI/CircularProgress";
+import FeedbackMessage from "../UI/FeedbackMessage";
 
 const schema = Yup.object({
   name: Yup.string()
@@ -69,30 +70,34 @@ function CheckoutForm() {
   let feedbackMessage;
   if (orderIsEmpty) {
     feedbackMessage = (
-      <p className="text-red-600 text-xs">
-        You should select your orders before submitting
-      </p>
+      <FeedbackMessage
+        textColor="text-red-700"
+        message="You should select your orders before submitting"
+      />
     );
   } else if (isLoading) {
     feedbackMessage = (
-      <div className="flex gap-2">
-        <CircularProgressIcons />
-        <p className="text-black text-sm">Sending...</p>
-      </div>
+      <FeedbackMessage
+        textColor="text-black"
+        icon=<CircularProgressIcons />
+        message="Sending..."
+      />
     );
   } else if (httpError) {
     feedbackMessage = (
-      <div className="flex gap-2 items-center text-xl">
-        <ErrorIcon color="error" fontSize="inherit" />
-        <p className="text-red-600 text-sm">{httpError}</p>
-      </div>
+      <FeedbackMessage
+        textColor="text-red-700"
+        icon=<ErrorIcon color="error"/>
+        message={httpError}
+      />
     );
   } else if (isSubmitting) {
     feedbackMessage = (
-      <div className="flex gap-2 items-center text-xl">
-        <CheckCircleOutlineIcon color="success" fontSize="inherit" />
-        <p className="text-green-600 text-sm">success</p>
-      </div>
+      <FeedbackMessage
+        textColor="text-green-700"
+        icon=<CheckCircleOutlineIcon color="success"/>
+        message="Success"
+      />
     );
   }
 

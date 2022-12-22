@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ErrorIcon from "@mui/icons-material/Error";
 import MealItem from "./MealItem";
-import CircularProgressIcons from "../../UI/CircularProgress";
+import CircularProgressIcons from "../UI/CircularProgress";
+import FeedbackMessage from "../UI/FeedbackMessage";
 
 function MealList() {
   const [meals, setMeals] = useState([]);
@@ -43,15 +44,23 @@ function MealList() {
 
   let content;
   if (isLoading) {
-    content =<div className="flex justify-center items-center gap-2">
-      <CircularProgressIcons/>
-      <p className="text-black text-center">Loading data...</p>;
-    </div>
+    content = (
+      <FeedbackMessage
+        textColor="text-black"
+        icon=<CircularProgressIcons />
+        message="Loading data..."
+        position="justify-center"
+      />
+    );
   } else if (httpError) {
-    content = <div className="flex gap-2 items-center text-xl justify-center">
-    <ErrorIcon color="error" fontSize="inherit"/>
-    <p className="text-red-600 text-sm">{httpError}</p>
-  </div>
+    content = (
+      <FeedbackMessage
+        textColor="text-red-700"
+        icon=<ErrorIcon color="error"/>
+        message={httpError}
+        position="justify-center"
+      />
+    );
   } else {
     content = meals.map((item) => <MealItem key={item.id} {...item} />);
   }
