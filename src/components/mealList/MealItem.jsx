@@ -7,8 +7,18 @@ function MealItem(props) {
 
   const handleChange = (event) => setAmount(event.target.value);
 
-  const addItemToOrder = () => {
-    ctx.updateOrders(props.id, amount, props.price);
+  const addItemToOrder = (id, price) => {
+    if (ctx.orders.find((item) => item.id === id)) {
+      ctx.setOrders((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? { ...item, amount: Number(item.amount) + Number(amount) }
+            : item
+        )
+      );
+    } else {
+      ctx.setOrders((prev) => [...prev, { id, amount, price }]);
+    }
     setAmount(0);
   };
 
@@ -36,7 +46,7 @@ function MealItem(props) {
         <button
           type="button"
           className="bg-red-900 font-bold px-5 py-0.5 rounded-3xl w-fit text-sm"
-          onClick={addItemToOrder}>
+          onClick={() => addItemToOrder(props.id, props.price)}>
           +Add
         </button>
       </div>

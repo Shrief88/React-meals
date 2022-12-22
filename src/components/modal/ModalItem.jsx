@@ -4,9 +4,26 @@ import OrderContext from "../../context/context";
 function ModalItem(props) {
   const ctx = useContext(OrderContext);
 
-  const addItme = () => ctx.addOneItemtoOrder(props.id);
+  const addItem = (id) => {
+    ctx.setOrders((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, amount: Number(item.amount) + 1 } : item
+      )
+    );
+  };
 
-  const removeItem = () => ctx.removeOneItemFromOrder(props.id);
+  const removeItem = (id) => {
+    const myItem = ctx.orders.find((item) => item.id === id);
+    if (myItem.amount === 1) {
+      ctx.setOrders((prev) => prev.filter((item) => item.id !== id));
+    } else {
+      ctx.setOrders((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, amount: Number(item.amount) - 1 } : item
+        )
+      );
+    }
+  };
 
   return (
     <div className="border-b  pb-3">
@@ -20,12 +37,12 @@ function ModalItem(props) {
         </div>
         <div className="flex gap-8">
           <div
-            onClick={removeItem}
+            onClick={() => removeItem(props.id)}
             className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
             -
           </div>
           <div
-            onClick={addItme}
+            onClick={() => addItem(props.id)}
             className="px-3 py-[1] border border-teal-600 rounded-lg text-md text-black hover:bg-teal-200">
             +
           </div>

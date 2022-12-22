@@ -87,7 +87,7 @@ function CheckoutForm() {
     feedbackMessage = (
       <FeedbackMessage
         textColor="text-red-700"
-        icon=<ErrorIcon color="error"/>
+        icon=<ErrorIcon color="error" />
         message={httpError}
       />
     );
@@ -95,7 +95,7 @@ function CheckoutForm() {
     feedbackMessage = (
       <FeedbackMessage
         textColor="text-green-700"
-        icon=<CheckCircleOutlineIcon color="success"/>
+        icon=<CheckCircleOutlineIcon color="success" />
         message="Success"
       />
     );

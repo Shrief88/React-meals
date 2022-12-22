@@ -56,7 +56,7 @@ function MealList() {
     content = (
       <FeedbackMessage
         textColor="text-red-700"
-        icon=<ErrorIcon color="error"/>
+        icon=<ErrorIcon color="error" />
         message={httpError}
         position="justify-center"
       />
