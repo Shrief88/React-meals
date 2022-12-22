@@ -1,26 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import OrderContext from "../../context";
+import ErrorIcon from "@mui/icons-material/Error";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import OrderContext from "../../context/context";
+import CircularProgressIcons from "../../UI/CircularProgress";
 
 const schema = Yup.object({
   name: Yup.string()
-    .min(3, "Must be more than 2 characters")
-    .required("Required"),
+    .required("Required")
+    .min(3, "Must be more than 2 characters"),
   number: Yup.string()
-    .matches("^01[0-2,5]{1}[0-9]{8}$", "Phone number is not valid")
-    .required("Required"),
+    .required("Required")
+    .matches("^01[0-2,5]{1}[0-9]{8}$", "Phone number is not valid"),
   street: Yup.string()
-    .min(3, "Must be more than 2 characters")
-    .required("Required"),
+    .required("Required")
+    .min(3, "Must be more than 2 characters"),
+
   city: Yup.string()
-    .min(3, "Must be more than 2 characters")
-    .required("Required"),
+    .required("Required")
+    .min(3, "Must be more than 2 characters"),
 });
 
 function CheckoutForm() {
   const ctx = useContext(OrderContext);
+  const [orderIsEmpty, setOrderIsEmpty] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [httpError, setHttpError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -29,7 +38,63 @@ function CheckoutForm() {
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-  const onSubmit = () => ctx.showModal();
+  const onSubmit = async (data) => {
+    if (Object.keys(ctx.orders).length === 0) {
+      setOrderIsEmpty(true);
+    } else {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https://reactmeals-755d6-default-rtdb.firebaseio.com/orders.json",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              user: data,
+              orders: ctx.orders,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Something went wrong");
+        }
+      } catch (e) {
+        setHttpError(e.message);
+      }
+      setIsLoading(false);
+      setIsSubmitting(true);
+    }
+  };
+
+  let feedbackMessage;
+  if (orderIsEmpty) {
+    feedbackMessage = (
+      <p className="text-red-600 text-xs">
+        You should select your orders before submitting
+      </p>
+    );
+  } else if (isLoading) {
+    feedbackMessage = (
+      <div className="flex gap-2">
+        <CircularProgressIcons />
+        <p className="text-black text-sm">Sending...</p>
+      </div>
+    );
+  } else if (httpError) {
+    feedbackMessage = (
+      <div className="flex gap-2 items-center text-xl">
+        <ErrorIcon color="error" fontSize="inherit" />
+        <p className="text-red-600 text-sm">{httpError}</p>
+      </div>
+    );
+  } else if (isSubmitting) {
+    feedbackMessage = (
+      <div className="flex gap-2 items-center text-xl">
+        <CheckCircleOutlineIcon color="success" fontSize="inherit" />
+        <p className="text-green-600 text-sm">success</p>
+      </div>
+    );
+  }
 
   return (
     <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
@@ -68,7 +133,7 @@ function CheckoutForm() {
         className="text-black w-full border rounded-lg border-gray-400 p-2 pr-12 text-md "
         placeholder="City"
         name="city"
-        {...register("number")}
+        {...register("city")}
       />
       {errors.city && (
         <p className="text-red-600 text-xs">{errors.city.message}</p>
@@ -87,6 +152,7 @@ function CheckoutForm() {
           Confirm
         </button>
       </div>
+      {feedbackMessage}
     </form>
   );
 }
