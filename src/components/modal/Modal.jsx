@@ -20,7 +20,7 @@ function Modal() {
     <div className="w-full h-full fixed left-0 right-0 top-0 bottom-0 bg-[#00000080] flex justify-center items-center">
       <div className="bg-white w-full max-w-lg flex flex-col p-5 rounded-3xl gap-3">
         {orders}
-        {showForm && <CheckoutForm/>}
+        {showForm && <CheckoutForm />}
         <div className="flex justify-between">
           <p className="text-black font-extrabold text-xl">Total Amount</p>
           <p className="text-black font-extrabold text-xl">${itemsPrice}</p>

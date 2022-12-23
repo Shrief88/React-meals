@@ -7,6 +7,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import OrderContext from "../../context/context";
 import CircularProgressIcons from "../UI/CircularProgress";
 import FeedbackMessage from "../UI/FeedbackMessage";
+import useFetch from "../../hooks/useFetch";
 
 const schema = Yup.object({
   name: Yup.string()
@@ -26,11 +27,8 @@ const schema = Yup.object({
 
 function CheckoutForm() {
   const ctx = useContext(OrderContext);
-  const [isLoading, setIsLoading] = useState(false);
-  const [httpError, setHttpError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccessed, setIsSuccessed] = useState(false);
-
+  const { isLoading, isSuccessed, httpError, sendRequest } = useFetch();
   const {
     register,
     handleSubmit,
@@ -42,27 +40,14 @@ function CheckoutForm() {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     if (Object.keys(ctx.orders).length !== 0) {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          "https://reactmeals-755d6-default-rtdb.firebaseio.com/orders.json",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              user: data,
-              orders: ctx.orders,
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Something went wrong");
-        }
-        setIsSuccessed(true);
-      } catch (e) {
-        setHttpError(e.message);
-      }
-      setIsLoading(false);
+      sendRequest({
+        url: "https://reactmeals-755d6-default-rtdb.firebaseio.com/orders.json",
+        method: "POST",
+        body: JSON.stringify({
+          user: data,
+          orders: ctx.orders,
+        }),
+      });
     }
   };
 

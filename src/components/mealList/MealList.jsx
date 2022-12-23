@@ -3,44 +3,34 @@ import ErrorIcon from "@mui/icons-material/Error";
 import MealItem from "./MealItem";
 import CircularProgressIcons from "../UI/CircularProgress";
 import FeedbackMessage from "../UI/FeedbackMessage";
+import useFetch from "../../hooks/useFetch";
 
 function MealList() {
   const [meals, setMeals] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [httpError, setHttpError] = useState(null);
+  const transformData = (data) => {
+    const transformedData = [];
+    const keys = Object.keys(data);
+    for (let i = 0; i < keys.length; i++) {
+      transformedData.push({
+        id: keys[i],
+        name: data[keys[i]].name,
+        price: data[keys[i]].price,
+        description: data[keys[i]].description,
+      });
+    }
+    setMeals(transformedData);
+  };
+
+  const { isLoading, httpError, sendRequest: fetchTasks } = useFetch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const response = await fetch(
-        "https://reactmeals-755d6-default-rtdb.firebaseio.com/meals.json"
-      );
-
-      if (!response.ok) {
-        throw new Error("Something went wrong");
-      }
-
-      const responseData = await response.json();
-      const loadedData = [];
-
-      const keys = Object.keys(responseData);
-      for (let i = 0; i < keys.length; i++) {
-        loadedData.push({
-          id: keys[i],
-          name: responseData[keys[i]].name,
-          price: responseData[keys[i]].price,
-          description: responseData[keys[i]].description,
-        });
-      }
-      setMeals(loadedData);
-      setIsLoading(false);
-    };
-
-    fetchData().catch((e) => {
-      setIsLoading(false);
-      setHttpError(e.message);
-    });
-  }, []);
+    fetchTasks(
+      {
+        url: "https://reactmeals-755d6-default-rtdb.firebaseio.com/meals.json",
+      },
+      transformData
+    );
+  }, [fetchTasks]);
 
   let content;
   if (isLoading) {
